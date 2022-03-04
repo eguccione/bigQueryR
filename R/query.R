@@ -206,7 +206,8 @@ bqr_query_asynch <- function(projectId = bqr_get_global_project(),
                              useLegacySql = TRUE,
                              writeDisposition = c("WRITE_EMPTY",
                                                   "WRITE_TRUNCATE",
-                                                  "WRITE_APPEND")){
+                                                  "WRITE_APPEND"),
+                                                  region = "europe-west2"){
   
   writeDisposition <- match.arg(writeDisposition)
   
@@ -216,7 +217,7 @@ bqr_query_asynch <- function(projectId = bqr_get_global_project(),
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
-                                                    jobs = "")
+                                                    jobs = ""), pars_args = list(location = region))
     )
   
   config <- list(

@@ -134,7 +134,7 @@ bqr_wait_for_job <- function(job, wait=5){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project()){
+bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project(),region = "europe-west2"){
   check_bq_auth()
   
   if(is.job(jobId)){
@@ -148,10 +148,10 @@ bqr_get_job <- function(jobId = .Last.value, projectId = bqr_get_global_project(
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "GET",
                                    path_args = list(projects = projectId,
-                                                    jobs = jobId), pars_args = list(location = "europe-west2"))
+                                                    jobs = jobId), pars_args = list(location = region))
   
   req <- job(path_arguments = list(projects = projectId,
-                                   jobs = jobId), pars_args = list(location = "europe-west2"))
+                                   jobs = jobId), pars_args = list(location = region))
   
   as.job(req$content)
   

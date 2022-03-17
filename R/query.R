@@ -37,13 +37,13 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                       useLegacySql = TRUE, 
                       useQueryCache = TRUE,
                       dryRun = FALSE,
-                      timeoutMs = 600*1000){
+                      timeoutMs = 600*1000,
+                      region = "europe-west2"){
   check_bq_auth()
   
   if(endsWith(query, ".sql")){
     query <- readChar(query, nchars = file.info(query)$size)
   }
-  
   maxResults <- as.numeric(maxResults)
   if(maxResults > 100000) warning("bqr_query() is not suited to extract large amount of data from BigQuery. Consider using bqr_query_asynch() and bqr_extract_data() instead")
   
@@ -98,13 +98,13 @@ bqr_query <- function(projectId = bqr_get_global_project(),
     pr <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                          "GET",
                                          path_args = list(projects = projectId,
-                                                          queries = jobId),
-                                         pars_args = list(pageToken = pageToken), 
+                                                          queries = jobId)
+                                         pars_args = list(pageToken = pageToken, location = region), 
                                          data_parse_function = parse_bqr_query)
     i <- 1
     while(!is.null(pageToken)){
       message("Page #: ", i)
-      data_page <- pr(pars_arguments = list(pageToken = pageToken))
+      data_page <- pr(pars_arguments = list(pageToken = pageToken, location = region))
       data <- rbind(data, data_page)
       pageToken <- attr(data_page, "pageToken")
       i <- i + 1

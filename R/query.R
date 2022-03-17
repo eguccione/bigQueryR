@@ -218,7 +218,7 @@ bqr_query_asynch <- function(projectId = bqr_get_global_project(),
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = ""), pars_args = list(location = region))
-    )
+    
   
   config <- list(
     jobReference = list(

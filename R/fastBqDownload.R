@@ -54,12 +54,12 @@ bqr_download_query <- function(query = NULL,
         return(data.table::fread(paste("gunzip -c", full_result_path)))
     }
 
-    setFastSqlDownloadOptions(global_project_name, global_dataset_name, global_bucket_name)
+    setFastSqlDownloadOptions(global_project_name, global_dataset_name, global_bucket_name,region)
 
     gcp_result_name_raw <- paste0(result_file_name, "_", Sys.getenv("LOGNAME"), "_", Sys.time())
     gcp_result_name <- gsub("[^[:alnum:]]+", "_", gcp_result_name_raw)
 
-    object_names <- saveQueryToStorage(query, gcp_result_name, useLegacySql)
+    object_names <- saveQueryToStorage(query, gcp_result_name, useLegacySql,region)
 
     tryCatch(
         {
@@ -88,17 +88,17 @@ setFastSqlDownloadOptions <- function(global_project_name, global_dataset_name, 
     googleCloudStorageR::gcs_global_bucket(global_bucket_name)
 }
 
-saveQueryToStorage <- function(query, result_name, useLegacySql){
+saveQueryToStorage <- function(query, result_name, useLegacySql,region){
     time <- Sys.time()
     message("Querying data and saving to BigQuery table")
     query_job <- bigQueryR::bqr_query_asynch(
         query = query,
         useLegacySql = useLegacySql,
         destinationTableId = result_name,
-        writeDisposition = "WRITE_TRUNCATE"
+        writeDisposition = "WRITE_TRUNCATE", region
     )
 
-    if (suppressMessages(bigQueryR::bqr_wait_for_job(query_job, wait = 2))$status$state == "DONE") {
+    if (suppressMessages(bigQueryR::bqr_wait_for_job(query_job, wait = 2,region))$status$state == "DONE") {
         time_elapsed <- difftime(Sys.time(), time)
         message(paste("Querying job is finished, time elapsed:", format(time_elapsed,format = "%H:%M:%S")))
 

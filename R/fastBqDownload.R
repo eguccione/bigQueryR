@@ -112,7 +112,7 @@ saveQueryToStorage <- function(query, result_name, useLegacySql){
                 ))
     }
 
-    if (suppressMessages(bigQueryR::bqr_wait_for_job(extract_job, wait = 2,region))$status$state == "DONE",) {
+    if (suppressMessages(bigQueryR::bqr_wait_for_job(extract_job, wait = 2,region))$status$state == "DONE") {
         time_elapsed <- difftime(Sys.time(), time)
         message(paste("Writing data to storage is finished, time elapsed:", format(time_elapsed,format = "%H:%M:%S")))
         object_names <- grep(

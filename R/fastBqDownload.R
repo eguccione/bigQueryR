@@ -56,7 +56,7 @@ bqr_download_query <- function(
         return(data.table::fread(paste("gunzip -c", full_result_path)))
     }
 
-    setFastSqlDownloadOptions(global_project_name, global_dataset_name, global_bucket_name,region)
+    setFastSqlDownloadOptions(global_project_name, global_dataset_name, global_bucket_name)
 
     gcp_result_name_raw <- paste0(result_file_name, "_", Sys.getenv("LOGNAME"), "_", Sys.time())
     gcp_result_name <- gsub("[^[:alnum:]]+", "_", gcp_result_name_raw)

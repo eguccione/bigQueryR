@@ -39,10 +39,7 @@ bqr_download_query <- function(
                                clean_intermediate_results = TRUE,
                                global_project_name = bqr_get_global_project(),
                                global_dataset_name = bqr_get_global_dataset(),
-                               global_bucket_name = googleCloudStorageR::gcs_get_global_bucket(),
-                               region = "europe-west2"
-                               
-) {
+                               global_bucket_name = googleCloudStorageR::gcs_get_global_bucket(),            region = "europe-west2"      ) {
     invisible(sapply(c("data.table", "purrr"), assertRequirement))
 
     if (is.null(result_file_name)) {

@@ -127,7 +127,8 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                 maxBadRecords = maxBadRecords,
                 allowJaggedRows = allowJaggedRows,
                 allowQuotedNewlines = allowQuotedNewlines,
-                fieldDelimiter = fieldDelimiter)
+                fieldDelimiter = fieldDelimiter,
+               region = region)
   
   
 }

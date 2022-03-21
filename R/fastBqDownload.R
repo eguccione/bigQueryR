@@ -30,7 +30,8 @@
 #' @return a data.table.
 #' 
 #' @export 
-bqr_download_query <- function(query = NULL,
+bqr_download_query <- function(
+                               query = NULL,
                                target_folder = "data",
                                result_file_name = NULL,
                                refetch = FALSE,
@@ -39,7 +40,8 @@ bqr_download_query <- function(query = NULL,
                                global_project_name = bqr_get_global_project(),
                                global_dataset_name = bqr_get_global_dataset(),
                                global_bucket_name = googleCloudStorageR::gcs_get_global_bucket(),
-                               region
+                               region = "europe-west2"
+                               
 ) {
     invisible(sapply(c("data.table", "purrr"), assertRequirement))
 

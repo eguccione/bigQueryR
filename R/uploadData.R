@@ -96,7 +96,7 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                             maxBadRecords = NULL,
                             allowJaggedRows = FALSE,
                             allowQuotedNewlines = FALSE,
-                            fieldDelimiter = NULL){
+                            fieldDelimiter = NULL, region = "europe-west2"){
   
 
   assert_that(is.string(projectId),
@@ -304,7 +304,7 @@ do_obj_req <- function(mp_body, projectId, datasetId, tableId) {
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = ""),
-                                   pars_args = list(uploadType="multipart"),
+                                   pars_args = list(location = region,uploadType="multipart"),
                                    customConfig = list(
                                      httr::add_headers("Content-Type" = "multipart/related; boundary=bqr_upload"),
                                      httr::add_headers("Content-Length" = nchar(mp_body, type = "bytes"))
@@ -444,7 +444,7 @@ bqr_do_upload.character <- function(upload_data,
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
-                                                    jobs = ""),
+                                                    jobs = ""), pars_args = list(location = region),
                                    data_parse_function = function(x) x
                                    )
   

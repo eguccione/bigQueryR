@@ -37,7 +37,7 @@ call_job <- function(projectId, config){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_wait_for_job <- function(job, wait=5){
+bqr_wait_for_job <- function(job, wait=5 , region){
   
   stopifnot(is.job(job))
   
@@ -51,7 +51,7 @@ bqr_wait_for_job <- function(job, wait=5){
                                                               format = "%H:%M:%S"), level = 3)
     
     job <- bqr_get_job(projectId = job$jobReference$projectId, 
-                       jobId = job$jobReference$jobId)
+                       jobId = job$jobReference$jobId, region = region)
     
     if(getOption("googleAuthR.verbose") <= 2){
       myMessage("job configuration:")

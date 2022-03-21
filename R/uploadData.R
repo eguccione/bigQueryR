@@ -291,14 +291,14 @@ bqr_do_upload.data.frame <- function(upload_data,
   
   mp_body <- make_body(config, obj = csv)
   
-  req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId)
+  req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId, region = region)
   
   out <- check_req(req, wait = wait)
   
   out
 }
 
-do_obj_req <- function(mp_body, projectId, datasetId, tableId) {
+do_obj_req <- function(mp_body, projectId, datasetId, tableId,region) {
   l <- 
     googleAuthR::gar_api_generator("https://www.googleapis.com/upload/bigquery/v2",
                                    "POST",
@@ -388,7 +388,7 @@ bqr_do_upload.character <- function(upload_data,
                                     maxBadRecords,
                                     allowJaggedRows,
                                     allowQuotedNewlines,
-                                    fieldDelimiter){
+                                    fieldDelimiter,region){
   
   myMessage("Uploading from Google Cloud Storage URI", level = 3)
   

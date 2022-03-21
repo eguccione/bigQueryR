@@ -39,7 +39,8 @@ bqr_download_query <- function(
                                clean_intermediate_results = TRUE,
                                global_project_name = bqr_get_global_project(),
                                global_dataset_name = bqr_get_global_dataset(),
-                               global_bucket_name = googleCloudStorageR::gcs_get_global_bucket(),            region = "europe-west2"      ) {
+                               global_bucket_name = googleCloudStorageR::gcs_get_global_bucket(),
+                               region = "europe-west2"      ) {
     invisible(sapply(c("data.table", "purrr"), assertRequirement))
 
     if (is.null(result_file_name)) {
@@ -94,7 +95,7 @@ saveQueryToStorage <- function(query, result_name, useLegacySql,region){
         query = query,
         useLegacySql = useLegacySql,
         destinationTableId = result_name,
-        writeDisposition = "WRITE_TRUNCATE", region
+        writeDisposition = "WRITE_TRUNCATE", region = region
     )
 
     if (suppressMessages(bigQueryR::bqr_wait_for_job(query_job, wait = 2,region))$status$state == "DONE") {

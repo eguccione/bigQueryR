@@ -38,7 +38,8 @@ bqr_download_query <- function(query = NULL,
                                clean_intermediate_results = TRUE,
                                global_project_name = bqr_get_global_project(),
                                global_dataset_name = bqr_get_global_dataset(),
-                               global_bucket_name = googleCloudStorageR::gcs_get_global_bucket()
+                               global_bucket_name = googleCloudStorageR::gcs_get_global_bucket(),
+                               region
 ) {
     invisible(sapply(c("data.table", "purrr"), assertRequirement))
 
@@ -111,7 +112,7 @@ saveQueryToStorage <- function(query, result_name, useLegacySql){
                 ))
     }
 
-    if (suppressMessages(bigQueryR::bqr_wait_for_job(extract_job, wait = 2))$status$state == "DONE") {
+    if (suppressMessages(bigQueryR::bqr_wait_for_job(extract_job, wait = 2,region))$status$state == "DONE",) {
         time_elapsed <- difftime(Sys.time(), time)
         message(paste("Writing data to storage is finished, time elapsed:", format(time_elapsed,format = "%H:%M:%S")))
         object_names <- grep(

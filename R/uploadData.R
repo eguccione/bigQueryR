@@ -147,7 +147,7 @@ bqr_do_upload <- function(upload_data,
                           maxBadRecords,
                           allowJaggedRows,
                           allowQuotedNewlines,
-                          fieldDelimiter){
+                          fieldDelimiter,region){
 
     UseMethod("bqr_do_upload", upload_data)
    
@@ -168,7 +168,7 @@ bqr_do_upload.list <- function(upload_data,
                                maxBadRecords,
                                allowJaggedRows,
                                allowQuotedNewlines,
-                               fieldDelimiter){ 
+                               fieldDelimiter,region){ 
   
   myMessage("Uploading local list as JSON", level = 3)
   
@@ -215,7 +215,7 @@ bqr_do_upload.list <- function(upload_data,
   
   mp_body <- make_body(config, obj = the_json)
   
-  req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId)
+  req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId, region = region)
   
   out <- check_req(req, wait = wait)
   
@@ -239,7 +239,7 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      maxBadRecords,
                                      allowJaggedRows,
                                      allowQuotedNewlines,
-                                     fieldDelimiter){ 
+                                     fieldDelimiter,region){ 
   
   myMessage("Uploading local data.frame", level = 3)
   

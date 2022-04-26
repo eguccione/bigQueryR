@@ -218,7 +218,7 @@ bqr_do_upload.list <- function(upload_data,
   
   req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId, region = region)
   
-  out <- check_req(req, wait = wait)
+  out <- check_req(req, wait = wait,region)
   
   out 
   
@@ -294,7 +294,7 @@ bqr_do_upload.data.frame <- function(upload_data,
   
   req <- do_obj_req(mp_body, projectId = projectId, datasetId = datasetId, tableId = tableId, region = region)
   
-  out <- check_req(req, wait = wait)
+  out <- check_req(req, wait = wait, region)
   
   out
 }
@@ -305,7 +305,7 @@ do_obj_req <- function(mp_body, projectId, datasetId, tableId,region) {
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = ""),
-                                   pars_args = list(location = region,uploadType="multipart"),
+                                   pars_args = list(region = region,uploadType="multipart"),
                                    customConfig = list(
                                      httr::add_headers("Content-Type" = "multipart/related; boundary=bqr_upload"),
                                      httr::add_headers("Content-Length" = nchar(mp_body, type = "bytes"))
@@ -342,7 +342,7 @@ make_body <- function(config, obj) {
 }
 
 
-check_req <- function(req, wait) {
+check_req <- function(req, wait, region) {
   if(!is.null(req$content$status$errorResult)){
     stop("Error in upload job: ", req$status$errors$message)
   } else {
@@ -359,7 +359,7 @@ check_req <- function(req, wait) {
                   req$content$jobReference$jobId, level = 3)
         
         out <- bqr_get_job(req$content$jobReference$jobId, 
-                           projectId = req$content$jobReference$projectId)
+                           projectId = req$content$jobReference$projectId, region = region)
       }
       
     } else {
@@ -389,7 +389,7 @@ bqr_do_upload.character <- function(upload_data,
                                     maxBadRecords,
                                     allowJaggedRows,
                                     allowQuotedNewlines,
-                                    fieldDelimiter,region){
+                                    fieldDelimiter, region = europe-west2){
   
   myMessage("Uploading from Google Cloud Storage URI", level = 3)
   
@@ -434,7 +434,8 @@ bqr_do_upload.character <- function(upload_data,
         ),
         autodetect = autodetect,
         allowJaggedRows = allowJaggedRows,
-        allowQuotedNewlines = allowQuotedNewlines
+        allowQuotedNewlines = allowQuotedNewlines,
+        region = region
       )
     )
   )
@@ -445,7 +446,8 @@ bqr_do_upload.character <- function(upload_data,
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
-                                                    jobs = ""), pars_args = list(location = region),
+                                                    jobs = "",
+                                                    region = region),
                                    data_parse_function = function(x) x
                                    )
   

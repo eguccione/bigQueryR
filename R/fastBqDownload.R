@@ -40,7 +40,7 @@ bqr_download_query <- function(
                                global_project_name = bqr_get_global_project(),
                                global_dataset_name = bqr_get_global_dataset(),
                                global_bucket_name = googleCloudStorageR::gcs_get_global_bucket(),
-                               region = "europe-west2"      ) {
+                               region = "europe-west2") {
     invisible(sapply(c("data.table", "purrr"), assertRequirement))
 
     if (is.null(result_file_name)) {
@@ -59,7 +59,7 @@ bqr_download_query <- function(
     gcp_result_name_raw <- paste0(result_file_name, "_", Sys.getenv("LOGNAME"), "_", Sys.time())
     gcp_result_name <- gsub("[^[:alnum:]]+", "_", gcp_result_name_raw)
 
-    object_names <- saveQueryToStorage(query, gcp_result_name, useLegacySql,region)
+    object_names <- saveQueryToStorage(query, gcp_result_name, useLegacySql,region = region)
 
     tryCatch(
         {

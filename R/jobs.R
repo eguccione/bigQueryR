@@ -37,7 +37,7 @@ call_job <- function(projectId, config){
 #' 
 #' @family BigQuery asynch query functions  
 #' @export
-bqr_wait_for_job <- function(job, wait=5 , region){
+bqr_wait_for_job <- function(job, wait=5 , region = region){
   
   stopifnot(is.job(job))
   

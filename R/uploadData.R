@@ -96,7 +96,8 @@ bqr_upload_data <- function(projectId = bqr_get_global_project(),
                             maxBadRecords = NULL,
                             allowJaggedRows = FALSE,
                             allowQuotedNewlines = FALSE,
-                            fieldDelimiter = NULL, region = "europe-west2"){
+                            fieldDelimiter = NULL, 
+                            region = "europe-west2"){
   
 
   assert_that(is.string(projectId),
@@ -148,7 +149,8 @@ bqr_do_upload <- function(upload_data,
                           maxBadRecords,
                           allowJaggedRows,
                           allowQuotedNewlines,
-                          fieldDelimiter,region){
+                          fieldDelimiter,
+                          region){
 
     UseMethod("bqr_do_upload", upload_data)
    
@@ -169,7 +171,8 @@ bqr_do_upload.list <- function(upload_data,
                                maxBadRecords,
                                allowJaggedRows,
                                allowQuotedNewlines,
-                               fieldDelimiter,region){ 
+                               fieldDelimiter,
+                               region){ 
   
   myMessage("Uploading local list as JSON", level = 3)
   
@@ -204,7 +207,8 @@ bqr_do_upload.list <- function(upload_data,
         ),
         autodetect = autodetect,
         allowJaggedRows = allowJaggedRows,
-        allowQuotedNewlines = allowQuotedNewlines,region = region
+        allowQuotedNewlines = allowQuotedNewlines,
+        region = region
       )
     )
   )
@@ -240,7 +244,8 @@ bqr_do_upload.data.frame <- function(upload_data,
                                      maxBadRecords,
                                      allowJaggedRows,
                                      allowQuotedNewlines,
-                                     fieldDelimiter,region){ 
+                                     fieldDelimiter,
+                                     region){ 
   
   myMessage("Uploading local data.frame", level = 3)
   
@@ -281,7 +286,7 @@ bqr_do_upload.data.frame <- function(upload_data,
         ),
         autodetect = FALSE,
         allowJaggedRows = allowJaggedRows,
-        allowQuotedNewlines = allowQuotedNewlines
+        allowQuotedNewlines = allowQuotedNewlines, region
       )
     )
   )
@@ -447,9 +452,9 @@ bqr_do_upload.character <- function(upload_data,
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = "",
-                                   pars_args = list(region = region),
                                    data_parse_function = function(x) x
-                                   )
+                                   ),
+                                   pars_args = list(region = region)
   
   req <- l(path_arguments = list(projects = projectId, 
                                  datasets = datasetId,

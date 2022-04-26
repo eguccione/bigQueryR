@@ -79,7 +79,7 @@ bqr_extract_data <- function(projectId = bqr_get_global_project(),
                                                    "NEWLINE_DELIMITED_JSON", 
                                                    "AVRO"),
                              fieldDelimiter = ",",
-                             printHeader = TRUE){
+                             printHeader = TRUE, region = "europe-west2"){
   
   compression <- match.arg(compression)
   destinationFormat <- match.arg(destinationFormat)
@@ -102,7 +102,7 @@ bqr_extract_data <- function(projectId = bqr_get_global_project(),
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
-                                                    jobs = "")
+                                                    jobs = "", region = region)
                                    )
 
   gsUri <- paste0(cloudStorageBucket, "/", filename)

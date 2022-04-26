@@ -204,7 +204,7 @@ bqr_do_upload.list <- function(upload_data,
         ),
         autodetect = autodetect,
         allowJaggedRows = allowJaggedRows,
-        allowQuotedNewlines = allowQuotedNewlines
+        allowQuotedNewlines = allowQuotedNewlines,region = region
       )
     )
   )
@@ -389,7 +389,7 @@ bqr_do_upload.character <- function(upload_data,
                                     maxBadRecords,
                                     allowJaggedRows,
                                     allowQuotedNewlines,
-                                    fieldDelimiter, region = europe-west2){
+                                    fieldDelimiter, region = "europe-west2"){
   
   myMessage("Uploading from Google Cloud Storage URI", level = 3)
   
@@ -447,7 +447,7 @@ bqr_do_upload.character <- function(upload_data,
                                    "POST",
                                    path_args = list(projects = projectId,
                                                     jobs = "",
-                                                    region = region),
+                                   pars_args = list(region = region),
                                    data_parse_function = function(x) x
                                    )
   

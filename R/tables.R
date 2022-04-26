@@ -86,7 +86,7 @@ bqr_copy_table <- function(source_tableid,
 #' @export
 bqr_list_tables <- function(projectId = bqr_get_global_project(), 
                             datasetId = bqr_get_global_dataset(),
-                            maxResults = -1){
+                            maxResults = -1, region = "europe-west2"){
   
   assert_that(is.string(projectId),
               is.string(datasetId),
@@ -108,7 +108,7 @@ bqr_list_tables <- function(projectId = bqr_get_global_project(),
                          path_args = list(projects = projectId,
                                           datasets = datasetId,
                                           tables = ""),
-                         pars_args = pars,
+                         pars_args = list(region = region),
                          data_parse_function = parse_bqr_list_tables)
   
   pages <- gar_api_page(l, 
@@ -194,7 +194,7 @@ bqr_table_meta <- function(projectId = bqr_get_global_project(),
 bqr_table_data <- function(projectId = bqr_get_global_project(), 
                            datasetId = bqr_get_global_dataset(), 
                            tableId,
-                           maxResults = 1000){
+                           maxResults = 1000, region = "europe-west2"){
   check_bq_auth()
   l <- googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                       "GET",
@@ -202,13 +202,13 @@ bqr_table_data <- function(projectId = bqr_get_global_project(),
                                                        datasets = datasetId,
                                                        tables = tableId,
                                                        data = ""),
-                                      pars_args = list(maxResults = maxResults),
+                                      pars_args = list(maxResults = maxResults,region = region),
                                       data_parse_function = function(x) x)
   
   l(path_arguments = list(projects = projectId, 
                           datasets = datasetId, 
                           tables = tableId),
-    pars_arguments = list(maxResults = maxResults))
+    pars_arguments = list(maxResults = maxResults,region = region))
   
 }
 

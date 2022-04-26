@@ -99,12 +99,12 @@ bqr_query <- function(projectId = bqr_get_global_project(),
                                          "GET",
                                          path_args = list(projects = projectId,
                                                           queries = jobId),
-                                         pars_args = list(pageToken = pageToken, location = region), 
+                                         pars_args = list(pageToken = pageToken, region = region), 
                                          data_parse_function = parse_bqr_query)
     i <- 1
     while(!is.null(pageToken)){
       message("Page #: ", i)
-      data_page <- pr(pars_arguments = list(pageToken = pageToken, location = region))
+      data_page <- pr(pars_arguments = list(pageToken = pageToken, region = region))
       data <- rbind(data, data_page)
       pageToken <- attr(data_page, "pageToken")
       i <- i + 1

@@ -10,12 +10,12 @@ is.job <- function(x){
 }
 
 # metadata only jobs
-call_job <- function(projectId, config){
+call_job <- function(projectId, config, region = "europe-west2"){
   l <- 
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
                                    "POST",
                                    path_args = list(projects = projectId,
-                                                    jobs = ""),
+                                                    jobs = "", region = region),
                                    data_parse_function = function(x) x
     )
   

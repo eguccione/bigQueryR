@@ -454,7 +454,7 @@ bqr_do_upload.character <- function(upload_data,
                                                     jobs = "",
                                    data_parse_function = function(x) x
                                    ),
-                                   pars_args = list(region = region)
+                                   pars_args = list(region = region),
   
   req <- l(path_arguments = list(projects = projectId, 
                                  datasets = datasetId,

@@ -449,12 +449,12 @@ bqr_do_upload.character <- function(upload_data,
   
   l <- 
     googleAuthR::gar_api_generator("https://www.googleapis.com/bigquery/v2",
-                                   "POST",
+                                   "POST",  pars_args = list(region = region),
                                    path_args = list(projects = projectId,
-                                                    jobs = "",
+                                                    jobs = ""),
                                    data_parse_function = function(x) x
-                                   ),
-                                   pars_args = list(region = region),
+                                   )
+                                  
   
   req <- l(path_arguments = list(projects = projectId, 
                                  datasets = datasetId,
